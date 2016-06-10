@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 	            return;
 	        }
 
-	        loginBtn.setEnabled(false);
+	        
 
 	        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
 	                R.style.AppTheme);

@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class AdvertiseFrg extends Fragment implements OnClickListener, OnItemSelectedListener {
 	File path;
@@ -36,8 +40,15 @@ public class AdvertiseFrg extends Fragment implements OnClickListener, OnItemSel
 
 	private String category;
 	private String img_path;
+	File file;
+	String fname;
 	private int price;
 	private String title;
+	ProgressDialog progress;
+	EditText txtPrice;
+	EditText txtTitle;
+	
+	Spinner spin;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -46,37 +57,37 @@ public class AdvertiseFrg extends Fragment implements OnClickListener, OnItemSel
 		btnSel = (Button) view.findViewById(R.id.btnSelect);
 		btnSave = (Button) view.findViewById(R.id.btnUp);
 		img = (ImageView) view.findViewById(R.id.imageView1);
-		Spinner spin = (Spinner) view.findViewById(R.id.spinner);
-		ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Spinner,
-				android.R.layout.simple_spinner_dropdown_item);
-		spin.setAdapter(adapter);
-		spin.setOnItemSelectedListener(this);
+		
 		btnSel.setOnClickListener(this);
 		btnSave.setOnClickListener(this);
 
-		EditText txtTitle = (EditText) view.findViewById(R.id.titletxt);
-		EditText txtPrice = (EditText) view.findViewById(R.id.pricetxt);
-		title = txtTitle.getText().toString();
-		price = txtPrice.getInputType();
+		 txtTitle = (EditText) view.findViewById(R.id.titletxt);
+		 txtPrice = (EditText) view.findViewById(R.id.pricetxt);
+		
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.upload, container, false);
+		spin = (Spinner) view.findViewById(R.id.spinner);
+		ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Spinner,
+				android.R.layout.simple_spinner_dropdown_item);
+		spin.setAdapter(adapter);
+		spin.setOnItemSelectedListener(this);
 		return view;
 
 	}
 
 	private void saveImage(Bitmap bit) {
 		String f = Environment.getExternalStorageDirectory().toString();
-		path = new File(f + "/saved_image");
+		path = new File(f + "/saved_image/");
 		path.mkdir();
 		Random generator = new Random();
 		int i = 1000;
 		i = generator.nextInt(i);
-		String fname = "image-" + i + ".jpg";
-		File file = new File(path, fname);
+		fname = "/image-" + i + ".jpg";
+		file = new File(path, fname);
 		img_path = path.toString() + fname;
 		try {
 			OutputStream out = new FileOutputStream(file);
@@ -120,7 +131,9 @@ public class AdvertiseFrg extends Fragment implements OnClickListener, OnItemSel
 		}
 	}
 
-	private void SaveItem() {
+	private void SaveItem(SGItem Items) {
+		myTask task = new myTask();
+		task.execute(Items);
 
 	}
 
@@ -136,10 +149,17 @@ public class AdvertiseFrg extends Fragment implements OnClickListener, OnItemSel
 			break;
 
 		case R.id.btnUp:
+			title = txtTitle.getText().toString();
+			price = Integer.parseInt(txtPrice.getText().toString());
+			String text = spin.getSelectedItem().toString();
+			
 			SGItem items = new SGItem();
 			items.setImg_path(img_path);
 			items.setPrice(price);
 			items.setDiscription(title);
+			items.setCategory(text);
+			SaveItem(items);
+			
 			break;
 		}
 	}
@@ -155,5 +175,55 @@ public class AdvertiseFrg extends Fragment implements OnClickListener, OnItemSel
 	public void onNothingSelected(AdapterView<?> parent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private class myTask extends AsyncTask<SGItem,Context, Long> {
+		
+		
+		@Override
+		protected void onProgressUpdate(Context... values) {
+			// TODO Auto-generated method stub
+			
+		progress = new ProgressDialog(getActivity().getApplicationContext(), android.R.style.Theme_Material_Light_Dialog_NoActionBar);
+		progress.setIndeterminate(true);
+		progress.setMessage("..." + "در حال ذخیره اطلاعات");
+		progress.show();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		progress.dismiss();
+		}
+			
+		
+
+		@Override
+		protected Long doInBackground(SGItem... params) {
+			// TODO Auto-generated method stub
+			Database db = new Database(getActivity());
+			long success = db.insertItems(params[0]);
+			
+			Log.e("sucess", "this is" + success);
+			return success;
+		}
+		@Override
+		protected void onPostExecute(Long result) {
+			// TODO Auto-generated method stub
+			Log.e("sucess", "this is " + result );
+			if(result != -1){
+			Toast.makeText(getActivity(), "اطلاعات با موفقیت ذخیره گردید", Toast.LENGTH_LONG).show();
+		}
+		else{
+			Toast.makeText(getActivity(), "اطلاعات نا معتبر است", Toast.LENGTH_LONG).show();
+		}
+			
+			
+		}
+
+	
+		
+		
 	}
 }

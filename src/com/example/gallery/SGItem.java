@@ -1,8 +1,6 @@
 package com.example.gallery;
 
-import com.backendless.Backendless;
 
-import android.app.Activity;
 
 public class SGItem {
 	private int id;

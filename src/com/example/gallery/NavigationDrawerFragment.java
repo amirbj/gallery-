@@ -33,6 +33,7 @@ public class NavigationDrawerFragment extends Fragment {
 	CustomDrawerAdapter adapter;
 	List<DrawerItem> dataList;
 	AdvertiseFrg adverFragment;
+	List<SGItem> ls;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -137,6 +138,11 @@ public class NavigationDrawerFragment extends Fragment {
 		case 1: 
 			fragment = new AdvertiseFrg();
 			break;
+			
+		case 2: 
+		
+			fragment = new ListItems();
+			
 			
 		}
 		

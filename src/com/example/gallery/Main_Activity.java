@@ -3,6 +3,7 @@ package com.example.gallery;
 
 import java.util.List;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class Main_Activity extends AppCompatActivity implements NavigationDrawer
 	CustomDrawerAdapter adapter;
 	List<DrawerItem> dataList;
 	CharSequence mTitle;
+	
 	
 	
 	@Override
@@ -39,13 +41,16 @@ public class Main_Activity extends AppCompatActivity implements NavigationDrawer
 	}
 
 
+
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	
+	
+
+
 
 	}
 
