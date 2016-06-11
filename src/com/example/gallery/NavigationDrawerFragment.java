@@ -34,17 +34,21 @@ public class NavigationDrawerFragment extends Fragment {
 	List<DrawerItem> dataList;
 	AdvertiseFrg adverFragment;
 	List<SGItem> ls;
+	final String STATE_SELECTED_POSITION= "selected_navigation_drawer_position";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
 			mSavedInstanceState = true;
+			//selectItem(0);
 		}
 		if (userOpenDrawer) {
 			userOpenDrawer = false;
 		}
-		selectItem(mCurrentSelectedPosition);
+
+	   
+	    
 	}
 
 	@Override
@@ -131,17 +135,25 @@ public class NavigationDrawerFragment extends Fragment {
 		});
 	}
 
-	private void selectItem(int position) {
+	public void selectItem(int position) {
 		Fragment fragment = null;
 		switch(position){
 		
+		case 0:
+
+			fragment = new Homa();
+			
+			break;
+		
 		case 1: 
 			fragment = new AdvertiseFrg();
+		
 			break;
 			
 		case 2: 
 		
 			fragment = new ListItems();
+
 			
 			
 		}
@@ -166,7 +178,12 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 		super.onDestroy();
 	}
-	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+	}
 	@Override
 	public void onDetach() {
 		// TODO Auto-generated method stub

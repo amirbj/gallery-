@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/carImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:paddingLeft="40dp"
+        android:src="@drawable/car" />
+
+    <ImageView
+        android:id="@+id/ferImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_toRightOf="@+id/carImg"
+        android:src="@drawable/feri" />
+
+    <ImageView
+        android:id="@+id/elecImg"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/carImg"
+        android:src="@drawable/elec" />
+
+</RelativeLayout>

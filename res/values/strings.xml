@@ -7,9 +7,9 @@
     <string name="toolbar_title">گالری</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="item1">ثبت نام</string>
-    <string name="item2">خانه</string>
-    <string name="item3">ثبت آگهی</string>
+    <string name="item1">خانه</string>
+    <string name="item2">ثبت آگهی</string>
+    <string name="item3">نمایش همه آگهی ها</string>
     <string name="spinner_title">نوع کالا</string>
 
     <string-array name="Spinner">
