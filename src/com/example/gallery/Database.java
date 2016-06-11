@@ -112,7 +112,7 @@ public class Database extends SQLiteOpenHelper {
 	public Cursor getItems() {
 		String SELECT_QUERY = "SELECT * FROM " + TABLE_NAME;
 		
-		String[] column= {CATEGORY , DESCRIP, IMG_PATH, PRICE};
+		String[] column= {KEY_ID,CATEGORY , DESCRIP, IMG_PATH, PRICE};
 		Log.e("hi", "hi" + SELECT_QUERY);
 		SQLiteDatabase db = this.getReadableDatabase();
 		 Cursor c = db.query(TABLE_NAME, column, null, null, null, null, null);
@@ -128,10 +128,10 @@ public class Database extends SQLiteOpenHelper {
 	
 
 	}
-public int delete(){
+public int delete(int id){
 	
 	SQLiteDatabase db = this.getWritableDatabase();
-	return db.delete(TABLE_NAME, "1", null);
+	return db.delete(TABLE_NAME,  "id = ?", new String[] {Integer.toString(id)} );
 	
 }
 }

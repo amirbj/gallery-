@@ -10,10 +10,13 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ItemAdapter extends ArrayAdapter<SGItem> {
 
@@ -23,6 +26,7 @@ public class ItemAdapter extends ArrayAdapter<SGItem> {
 	TextView tvItem;
 	ImageView imgItem;
 	TextView tvPrice;
+	Button btnDel;
 
 	public ItemAdapter(Context con, int resource, List<SGItem> objects) {
 		super(con, resource, objects);
@@ -36,7 +40,8 @@ public class ItemAdapter extends ArrayAdapter<SGItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 
-		ViewHolder holder;
+		 ViewHolder holder;
+		 final int delId;
 
 		holder = new ViewHolder();
 		View RootView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
@@ -45,6 +50,7 @@ public class ItemAdapter extends ArrayAdapter<SGItem> {
 		holder.tvTitle = (TextView) RootView.findViewById(R.id.titletv);
 		holder.tvItem = (TextView) RootView.findViewById(R.id.categorytv);
 		holder.imgItem = (ImageView) RootView.findViewById(R.id.imglist);
+		 holder.btnDel = (Button) RootView.findViewById(R.id.btnDel);
 
 		holder.item = listItem.get(position);
 		holder.tvPrice.setText("" + holder.item.getPrice());
@@ -52,6 +58,28 @@ public class ItemAdapter extends ArrayAdapter<SGItem> {
 		holder.tvTitle.setText(holder.item.getDiscription());
 		ListItems ls = new ListItems();
 		Bitmap bit = ls.getImage(holder.item.getImg_path());
+		delId = holder.item.getId();
+		
+		 holder.btnDel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				new android.os.Handler().postDelayed(new Runnable() {
+					public void run() {
+						
+						Database db = new Database(context);
+						int id = db.delete(delId);
+						Log.e("adapter id", "ths is "+ Integer.toString(delId));
+						Toast.makeText(context, id + " rows has been deleted", Toast.LENGTH_LONG)
+								.show();
+
+					}
+				}, 1000);
+				
+			}
+		});
 
 		holder.imgItem.setImageBitmap(bit);
 		
@@ -64,6 +92,7 @@ public class ItemAdapter extends ArrayAdapter<SGItem> {
 		TextView tvItem;
 		ImageView imgItem;
 		TextView tvPrice;
+		Button btnDel;
 	}
 
 }

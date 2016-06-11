@@ -61,7 +61,7 @@
                 android:layout_gravity="center"
                 android:background="@color/nav_txt"
                 android:height="@dimen/abc_edit_text_inset_bottom_material"
-                android:text="Register" />
+                android:text="@string/btnSubmit"/>"
         </LinearLayout>
     </ScrollView>
 

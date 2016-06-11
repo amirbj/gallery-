@@ -17,5 +17,6 @@
         <item>مبلمان </item>
         <item>لوازم برقی</item>
         ></string-array>
+    <string name="btnSubmit">ثبت</string>
 
 </resources>

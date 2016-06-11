@@ -30,7 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ListItems extends ListFragment implements OnClickListener {
+public class ListItems extends ListFragment  {
 
 	TextView tvPrice;
 	private Context context;
@@ -110,7 +110,7 @@ public class ListItems extends ListFragment implements OnClickListener {
 
 				while (cur.moveToNext()) {
 					SGItem item = new SGItem();
-
+					item.setId(cur.getInt(cur.getColumnIndex("id")));
 					item.setCategory(cur.getString(cur.getColumnIndex("category")));
 					item.setPrice(cur.getInt(cur.getColumnIndex("price")));
 					item.setDiscription(cur.getString(cur.getColumnIndex("discription")));
@@ -168,18 +168,4 @@ public class ListItems extends ListFragment implements OnClickListener {
 		}
 
 	}
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		new android.os.Handler().postDelayed(new Runnable() {
-			public void run() {
-				Database db = new Database(getActivity().getApplicationContext());
-				int id = db.delete();
-				Toast.makeText(getActivity().getApplicationContext(), id + " rows has been deleted", Toast.LENGTH_LONG)
-						.show();
-
-			}
-		}, 1000);
 	}
-}
